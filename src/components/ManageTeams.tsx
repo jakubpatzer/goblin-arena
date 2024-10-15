@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { generateRandomName } from "@/utils";
 import TeamCard from "./TeamCard";
 import { Team } from "@/interfaces";
@@ -10,7 +10,6 @@ const ManageTeams = () => {
   const [teams, setTeams] = useState<Team[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
 
-  // Load teams from localStorage on component mount
   useEffect(() => {
     const storedTeams = localStorage.getItem("teams");
     if (storedTeams) {
@@ -18,7 +17,6 @@ const ManageTeams = () => {
     }
   }, []);
 
-  // Save teams to localStorage whenever teams state changes
   useEffect(() => {
     if (teams.length > 0) {
       localStorage.setItem("teams", JSON.stringify(teams));
@@ -49,12 +47,19 @@ const ManageTeams = () => {
   };
 
   const handleRemoveAllTeams = () => {
-    setTeams([]); // Clear the state
-    localStorage.removeItem("teams"); // Clear from localStorage
+    setTeams([]);
+    localStorage.removeItem("teams");
   };
 
   return (
-    <Box>
+    <Box
+      sx={{
+        backgroundColor: "#F0F0C9",
+        padding: 3,
+        minHeight: "100vh",
+        backgroundSize: 'cover',
+      }}
+    >
       <Box
         component="form"
         onSubmit={handleCreateTeam}
@@ -67,39 +72,90 @@ const ManageTeams = () => {
           maxWidth: 400,
           mx: "auto",
           mt: 5,
+          backgroundColor: "#D4D7A7",
+          padding: 2,
+          boxShadow: '8px 8px 0px #2B2B2B',
+          border: '3px solid #3B3B3B',
         }}
       >
+        <Typography
+          variant="h5"
+          sx={{ color: "#F24B1A", textAlign: "center" }}
+        >
+          Create New Team
+        </Typography>
+
         <TextField
           label="Enter team name"
           variant="outlined"
           fullWidth
           value={inputValue}
           onChange={handleInputChange}
+          sx={{
+            backgroundColor: "#FFFFFF",
+            boxShadow: "inset 4px 4px 0px #2B2B2B",
+            border: "2px solid #3B3B3B",
+          }}
         />
 
-        <Button variant="contained" color="primary" type="submit">
-          Create team
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          sx={{
+            backgroundColor: "#FFDD57",
+            color: "#3B3B3B",
+            boxShadow: '4px 4px 0px #2B2B2B',
+            "&:hover": {
+              backgroundColor: "#FFB74A",
+            },
+          }}
+        >
+          Create Team
         </Button>
       </Box>
 
-      <Box mt={4}>
+      <Box mt={4} textAlign="center">
         <Button
           variant="contained"
           color="secondary"
           onClick={handleRemoveAllTeams}
+          sx={{
+            backgroundColor: "#FF6B6B",
+            color: "white",
+            boxShadow: '4px 4px 0px #2B2B2B',
+            "&:hover": {
+              backgroundColor: "#E74C3C",
+            },
+          }}
         >
           Remove All Teams
         </Button>
       </Box>
 
-      <Box mt={4}>
-        <h2>TEAMS:</h2>
+      <Box mt={4} sx={{ textAlign: "center", color: "#3B3B3B" }}>
+        <Typography
+          variant="h6"
+          sx={{ color: "#F24B1A" }}
+        >
+          TEAMS:
+        </Typography>
         {teams.length === 0 ? (
-          <p>No teams available</p>
+          <Typography
+            sx={{ mt: 2 }}
+          >
+            No teams available
+          </Typography>
         ) : (
-          teams.map((team: Team) => (
-            <TeamCard key={team.teamName} team={team} />
-          ))
+          <Box
+            sx={{
+              mt: 2,
+            }}
+          >
+            {teams.map((team: Team) => (
+              <TeamCard key={team.teamName} team={team} />
+            ))}
+          </Box>
         )}
       </Box>
     </Box>
