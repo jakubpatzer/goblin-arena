@@ -1,35 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Button, TextField } from "@mui/material";
-
-interface Goblin {
-  name: string;
-  attack: number;
-  defense: number;
-}
-
-interface Team {
-  teamName: string;
-  goblins: Goblin[];
-}
-
-const initialTeam: Team[] = [
-  {
-    teamName: "Jogarr",
-    goblins: [
-      { name: "Bobo", attack: 8, defense: 5 },
-      { name: "Koko", attack: 5, defense: 1 },
-      { name: "Jajo", attack: 3, defense: 8 },
-      { name: "Lolo", attack: 2, defense: 3 },
-      { name: "Zozo", attack: 9, defense: 4 },
-    ],
-  },
-];
+import { generateRandomName } from "@/utils";
+import TeamCard from "./TeamCard";
+import { Team } from "@/interfaces";
 
 const ManageTeams = () => {
-  const [teams, setTeams] = useState<Team[]>(initialTeam);
-  const [inputValue, setInputValue] = useState("");
+  const [teams, setTeams] = useState<Team[]>([]);
+  const [inputValue, setInputValue] = useState<string>("");
+
+  // Load teams from localStorage on component mount
+  useEffect(() => {
+    const storedTeams = localStorage.getItem("teams");
+    if (storedTeams) {
+      setTeams(JSON.parse(storedTeams));
+    }
+  }, []);
+
+  // Save teams to localStorage whenever teams state changes
+  useEffect(() => {
+    if (teams.length > 0) {
+      localStorage.setItem("teams", JSON.stringify(teams));
+    }
+  }, [teams]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -38,19 +32,25 @@ const ManageTeams = () => {
   const handleCreateTeam = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setTeams((prevTeams: Team[]): Team[] => {
-      return [
+      const newTeams = [
         ...prevTeams,
         {
           teamName: inputValue,
-          goblins: Array.from({ length: 5 }, (e, i) => ({
-            name: `Name_${i}`,
+          goblins: Array.from({ length: 5 }, () => ({
+            name: generateRandomName(),
             attack: Math.floor(Math.random() * 9 + 1),
             defense: Math.floor(Math.random() * 9 + 1),
           })),
         },
       ];
+      return newTeams;
     });
     setInputValue("");
+  };
+
+  const handleRemoveAllTeams = () => {
+    setTeams([]); // Clear the state
+    localStorage.removeItem("teams"); // Clear from localStorage
   };
 
   return (
@@ -81,20 +81,26 @@ const ManageTeams = () => {
           Create team
         </Button>
       </Box>
-      <Box>
-        TEAMS:
-        {teams.map((team: Team) => (
-          <Box key={team.teamName}>
-            <h2>{team.teamName}</h2>
-            {team.goblins.map((goblin: Goblin) => (
-              <div key={goblin.name}>
-                <div>{goblin.name}</div>
-                <div>ATT: {goblin.attack}</div>
-                <div>DEF: {goblin.defense}</div>
-              </div>
-            ))}
-          </Box>
-        ))}
+
+      <Box mt={4}>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={handleRemoveAllTeams}
+        >
+          Remove All Teams
+        </Button>
+      </Box>
+
+      <Box mt={4}>
+        <h2>TEAMS:</h2>
+        {teams.length === 0 ? (
+          <p>No teams available</p>
+        ) : (
+          teams.map((team: Team) => (
+            <TeamCard key={team.teamName} team={team} />
+          ))
+        )}
       </Box>
     </Box>
   );
