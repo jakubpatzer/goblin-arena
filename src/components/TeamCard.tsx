@@ -13,6 +13,7 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Box, Typography } from "@mui/material";
 
+
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
@@ -52,6 +53,7 @@ export default function TeamCard({ team }: { team: Team }) {
     <Card
       variant="outlined"
       sx={{
+        width: 220,
         maxWidth: 220,
         borderWidth: '4px',
         borderColor: '#3B3B3B',
@@ -62,6 +64,7 @@ export default function TeamCard({ team }: { team: Team }) {
     >
       <CardHeader
         title={team.teamName}
+        subheader={`Wins: ${team.victoryPoints}`}
         sx={{
           fontSize: '0.9rem',
           color: '#F24B1A',
@@ -77,18 +80,16 @@ export default function TeamCard({ team }: { team: Team }) {
           border: '2px solid #2B2B2B',
         }}
       />
-      <CardActions disableSpacing>
+      <CardActions 
+        disableSpacing
+      >
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="show more"
         >
-          <ExpandMoreIcon
-            sx={{ 
-              // color: '#FFDD57' 
-            }}
-          />
+          <ExpandMoreIcon />
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
@@ -103,17 +104,17 @@ export default function TeamCard({ team }: { team: Team }) {
             <Box key={goblin.name} sx={{ mb: 2 }}>
               <Typography
                 sx={{
-                  fontSize: '0.8rem',
+                  fontSize: '0.9rem',
                   color: '#0C6C91',
                   textTransform: 'uppercase',
                 }}
               >
                 {goblin.name}
               </Typography>
-              <Typography sx={{ fontSize: '0.7rem' }}>
+              <Typography sx={{ fontSize: '0.7rem', fontWeight: 'bold' }}>
                 ATT: {goblin.attack}
               </Typography>
-              <Typography sx={{ fontSize: '0.7rem' }}>
+              <Typography sx={{ fontSize: '0.7rem', fontWeight: 'bold' }}>
                 DEF: {goblin.defense}
               </Typography>
             </Box>

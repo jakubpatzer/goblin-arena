@@ -7,4 +7,5 @@ export interface Goblin {
 export interface Team {
   teamName: string;
   goblins: Goblin[];
+  victoryPoints?: number;
 }

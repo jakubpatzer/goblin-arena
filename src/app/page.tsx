@@ -30,7 +30,10 @@ export default function Home() {
             layout="responsive"
           />
           <Button variant="outlined" onClick={() => setStarted(true)}>
-            Click to play
+            Start
+          </Button>
+          <Button variant="outlined" onClick={() => setStarted(true)}>
+            Options
           </Button>
         </Box>
       )}
