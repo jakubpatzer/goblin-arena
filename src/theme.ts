@@ -1,5 +1,11 @@
 'use client';
 import { createTheme, Theme } from '@mui/material/styles';
+import localFont from 'next/font/local'
+
+const pixelify = localFont({
+  src: './app/fonts/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf',
+  weight: 'normal',
+})
 
 const theme: Theme = createTheme({
   palette: {
@@ -8,14 +14,13 @@ const theme: Theme = createTheme({
     }
   },
   typography: {
+    fontFamily: pixelify.style.fontFamily,
     h1: {
-      fontFamily: 'Merriweather, serif',
       fontWeight: 700,
       fontSize: '3rem',
       lineHeight: 1.2,
     },
     h3: {
-      fontFamily: 'Merriweather, serif',
       fontWeight: 700,
       fontSize: '1.5rem',
       lineHeight: 1.2,

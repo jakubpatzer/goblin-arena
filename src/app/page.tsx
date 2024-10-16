@@ -20,21 +20,23 @@ export default function Home() {
         <ManageTeams />
       ) : (
         <Box sx={{
-          textAlign: 'center'
+
         }}>
           <Image
             src="/assets/arena.jpeg"
-            width={100}
-            height={100}
+            width={300}
+            height={300}
             alt="logo"
             layout="responsive"
           />
-          <Button variant="outlined" onClick={() => setStarted(true)}>
-            Start
-          </Button>
-          <Button variant="outlined" onClick={() => setStarted(true)}>
-            Options
-          </Button>
+          <Box sx={{display: 'flex', gap: '20px', justifyContent: 'center'}}>
+            <Button variant="outlined" onClick={() => setStarted(true)}>
+              Start
+            </Button>
+            <Button variant="outlined">
+              Options (Comin soon)
+            </Button>
+          </Box>
         </Box>
       )}
     </Container>

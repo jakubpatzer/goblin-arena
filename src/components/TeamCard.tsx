@@ -12,6 +12,7 @@ import Collapse from '@mui/material/Collapse';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Box, Typography } from "@mui/material";
+import Image from "next/image";
 
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -95,28 +96,47 @@ export default function TeamCard({ team }: { team: Team }) {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent
           sx={{
-            fontFamily: '"Press Start 2P", cursive',
             color: '#333',
             lineHeight: '1.5',
           }}
         >
           {team.goblins.map((goblin: Goblin) => (
+            // TODO: Install UUID for goblin (and possibly team) unique IDs
             <Box key={goblin.name} sx={{ mb: 2 }}>
               <Typography
                 sx={{
-                  fontSize: '0.9rem',
+                  fontSize: '1.2rem',
                   color: '#0C6C91',
-                  textTransform: 'uppercase',
+                  marginBottom: '20px',
+                  borderTop: '2px solid black',
+                  paddingTop: '10px',
                 }}
               >
                 {goblin.name}
               </Typography>
-              <Typography sx={{ fontSize: '0.7rem', fontWeight: 'bold' }}>
-                ATT: {goblin.attack}
-              </Typography>
-              <Typography sx={{ fontSize: '0.7rem', fontWeight: 'bold' }}>
-                DEF: {goblin.defense}
-              </Typography>
+              {/* TODO: Find/make better sword and shield images with similar width and height */}
+              <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <Image 
+                  src='/assets/sword.png'
+                  width={80}
+                  height={40}
+                  alt='sword'
+                />
+                <Typography sx={{ fontSize: '0.9rem', color: 'red' }}>
+                  {goblin.attack}
+                </Typography>
+              </Box>
+              <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <Image 
+                  src='/assets/shield.png'
+                  width={30}
+                  height={30}
+                  alt='sword'
+                />
+                <Typography sx={{ fontSize: '0.9rem', position: 'relative', left: '25px', color: 'blue' }}>
+                  {goblin.defense}
+                </Typography>
+              </Box>
             </Box>
           ))}
         </CardContent>

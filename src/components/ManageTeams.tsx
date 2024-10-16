@@ -6,24 +6,86 @@ import { generateRandomName } from "@/utils";
 import TeamCard from "./TeamCard";
 import { Team } from "@/interfaces";
 import { battle } from "@/utils";
+import Image from "next/image";
+
+const goblinImages_1 = [
+  {
+    src: '/assets/goblin-9.gif',
+    posLeft: 0,
+    posBottom: 10,
+  },
+  {
+    src: '/assets/goblin-9.gif',
+    posLeft: 50,
+    posBottom: 40,
+  },
+  {
+    src: '/assets/goblin-9.gif',
+    posLeft: 0,
+    posBottom: 70,
+  },
+  {
+    src: '/assets/goblin-9.gif',
+    posLeft: 0,
+    posBottom: 130,
+  },
+  {
+    src: '/assets/goblin-9.gif',
+    posLeft: 50,
+    posBottom: 100,
+  },
+]
+const goblinImages_2 = [
+  {
+    src: '/assets/goblin-7.webp',
+    posLeft: 0,
+    posBottom: 10,
+  },
+  {
+    src: '/assets/goblin-7.webp',
+    posLeft: 50,
+    posBottom: 40,
+  },
+  {
+    src: '/assets/goblin-7.webp',
+    posLeft: 0,
+    posBottom: 70,
+  },
+  {
+    src: '/assets/goblin-7.webp',
+    posLeft: 0,
+    posBottom: 130,
+  },
+  {
+    src: '/assets/goblin-7.webp',
+    posLeft: 50,
+    posBottom: 100,
+  },
+]
 
 const modalStyle = {
+  height: '300px',
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
+  width: '100%',
+  maxWidth: 500,
+  bgcolor: '#F0F0C9',
+  border: '4px solid #3B3B3B',
+  boxShadow: '8px 8px 0px #2B2B2B',
+  padding: '10px',
+  textAlign: 'center',
+  backgroundImage: 'url("/assets/battle-background.png")',
+  backgroundSize: 'cover',
 };
 
 const ManageTeams = () => {
   const [teams, setTeams] = useState<Team[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
   const [open, setOpen] = useState(false);
-  const [randomTeams, setRandomTeams] = useState<Team[]>([]);
+  const [battlingTeams, setBattlingTeams] = useState<Team[]>([]);
+  const [winner, setWinner] = useState<Team | null>(null);
 
   const handleClose = () => setOpen(false);
 
@@ -54,8 +116,8 @@ const ManageTeams = () => {
             teamName: inputValue,
             goblins: Array.from({ length: 5 }, () => ({
               name: generateRandomName(),
-              attack: Math.floor(Math.random() * 9 + 1),
-              defense: Math.floor(Math.random() * 9 + 1),
+              attack: Math.floor(Math.random() * 10 + 1),
+              defense: Math.floor(Math.random() * 10 + 1),
             })),
             victoryPoints: 0,
           },
@@ -73,9 +135,11 @@ const ManageTeams = () => {
 
   const handleBattle = () => {
     if (teams.length > 1) {
-      const { updatedTeams, participatingTeams } = battle(teams);
+      const { updatedTeams, participatingTeams, winner } = battle(teams);
+
       setTeams([...updatedTeams].sort((a, b) => (b.victoryPoints || 0) - (a.victoryPoints || 0)));
-      setRandomTeams(participatingTeams);
+      setBattlingTeams(participatingTeams);
+      setWinner(winner);
       setOpen(true);
     }
   };
@@ -204,22 +268,106 @@ const ManageTeams = () => {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-      >
-        <Box sx={modalStyle}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Battle Results
+>
+  <Box sx={modalStyle}>
+    <Box>
+      {battlingTeams.length === 2 && (
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'space-between'
+        }}>
+          <Typography 
+            sx={{
+              color: 'red',
+              fontSize: '1.8rem',
+              fontWeight: 'bold',
+              mb: 1,
+            }}
+          >
+            {battlingTeams[0].teamName}
           </Typography>
-          <Box>
-            {randomTeams.length === 2 && (
-              <Box>
-                <Typography>{randomTeams[0].teamName}: {randomTeams[0].victoryPoints} victory points</Typography>
-                <Typography>{randomTeams[1].teamName}: {randomTeams[1].victoryPoints} victory points</Typography>
-              </Box>
-            )}
-          </Box>
-          <Button onClick={handleClose}>Close</Button>
+          <Typography 
+            sx={{
+              color: 'red',
+              fontSize: '1.8rem',
+              fontWeight: 'bold',
+            }}
+          >
+            {battlingTeams[1].teamName}
+          </Typography>
         </Box>
-      </Modal>
+      )}
+      <Box>
+        {goblinImages_1.map((char, i) => (
+          <Image 
+            key={i}
+            src={char.src}
+            width={60} 
+            height={60} 
+            alt='goblin'
+            style={{
+              transform: 'scaleX(-1)',
+              position: 'absolute',
+              left: char.posLeft,
+              bottom: char.posBottom,
+            }}
+          />
+
+        ))}
+      </Box>
+      <Box>
+        {goblinImages_2.map((char, i) => (
+          <Image 
+            key={i}
+            src={char.src}
+            width={80} 
+            height={80} 
+            alt='goblin'
+            style={{
+              position: 'absolute',
+              right: char.posLeft,
+              bottom: char.posBottom,
+            }}
+          />
+
+        ))}
+      </Box>
+      <Box>
+        <Image
+          src='/assets/effect-2.gif'
+          width={100}
+          height={100}
+          alt='effect1'
+        />
+      </Box>
+    </Box>
+    <Box>
+    <Typography 
+      sx={{
+        color: 'red',
+        fontSize: '1.8rem',
+        fontWeight: 'bold',
+      }}
+    >
+      {winner ? `${winner.teamName} wins!` : 'TIE!'}
+    </Typography>
+    </Box>
+    {/* <Button 
+      onClick={handleClose}
+      sx={{
+        mt: 20,
+        backgroundColor: '#FFDD57', 
+        color: '#3B3B3B', 
+        boxShadow: '4px 4px 0px #2B2B2B',
+        '&:hover': {
+          backgroundColor: '#FFB74A',
+        },
+      }}
+    >
+      Close
+    </Button> */}
+  </Box>
+</Modal>
     </Box>
   );
 };
