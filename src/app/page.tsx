@@ -1,27 +1,26 @@
 "use client";
 
-// import styles from "./page.module.css";
 import { Container, Box } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Button from "@mui/material/Button";
 import Game from "@/components/Game";
 
+// TODO: Handle page refresh to ramain in Battle view and add a back button/link to welcome screen
+
 export default function Home() {
-  const [started, setStarted] = useState(false);
+  const [started, setStarted] = useState<boolean>(false);
   return (
     <Container
-    sx={{
-      minHeight: "100vh",
-    }}
+      sx={{
+        minHeight: "100vh",
+      }}
     >
-      {!started ? (
+      {started ? (
         <Game />
       ) : (
-        <Box sx={{
-
-        }}>
-          <Box sx={{mb:6}}>
+        <Box sx={{}}>
+          <Box sx={{ mb: 0 }}>
             <Image
               src="/assets/arena.jpeg"
               width={300}
@@ -30,14 +29,12 @@ export default function Home() {
               layout="responsive"
             />
           </Box>
-          <Box sx={{display: 'flex', gap: '20px', justifyContent: 'center'}}>
+          <Box sx={{ display: "flex", gap: "20px", justifyContent: "center" }}>
             <Button variant="outlined" onClick={() => setStarted(true)}>
               Start
             </Button>
             {/* TODO: Create options page */}
-            <Button variant="outlined">
-              Options (Comin soon)
-            </Button>
+            <Button variant="outlined">Options (Comin soon)</Button>
           </Box>
         </Box>
       )}

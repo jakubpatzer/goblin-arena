@@ -1,10 +1,9 @@
-import { faker } from '@faker-js/faker';
+import { faker } from "@faker-js/faker";
+import { Team, Goblin } from "@/interfaces";
 
 export function generateRandomName(): string {
-  return faker.name.firstName()
+  return faker.name.firstName();
 }
-
-import { Team, Goblin } from "@/interfaces";
 
 // Single battle between goblins
 const fightGoblinBattle = (goblin1: Goblin, goblin2: Goblin) => {
@@ -30,8 +29,12 @@ const battleRound = (team1: Team, team2: Team) => {
   let team2Wins: number = 0;
 
   // Select random goblins from each team for the battle
-  const randomGoblins1: Goblin[] = team1.goblins.sort(() => Math.random() - 0.5).slice(0, 5);
-  const randomGoblins2: Goblin[] = team2.goblins.sort(() => Math.random() - 0.5).slice(0, 5);
+  const randomGoblins1: Goblin[] = team1.goblins
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 5);
+  const randomGoblins2: Goblin[] = team2.goblins
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 5);
 
   // 5 fights
   for (let i = 0; i < 5; i++) {
@@ -59,7 +62,13 @@ const battleRound = (team1: Team, team2: Team) => {
 };
 
 // Main battle
-export const battle = (teams: Team[]): { updatedTeams: Team[], participatingTeams: Team[], winner: Team | null } => {
+export const battle = (
+  teams: Team[]
+): {
+  updatedTeams: Team[];
+  participatingTeams: Team[];
+  winner: Team | null;
+} => {
   // Ensure there are at least two teams
   if (teams.length < 2) {
     console.log("Not enough teams to battle.");
@@ -70,7 +79,9 @@ export const battle = (teams: Team[]): { updatedTeams: Team[], participatingTeam
   const updatedTeams: Team[] = teams.map((team: Team) => ({ ...team }));
 
   // Randomly select two teams for a round
-  const participatingTeams: Team[] = updatedTeams.sort(() => Math.random() - 0.5).slice(0, 2);
+  const participatingTeams: Team[] = updatedTeams
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 2);
   const [team1, team2] = participatingTeams;
 
   // Set victory points for teams
@@ -92,6 +103,5 @@ export const battle = (teams: Team[]): { updatedTeams: Team[], participatingTeam
   }
 
   // Return all needed stuff
-  return { updatedTeams, participatingTeams, winner }; 
+  return { updatedTeams, participatingTeams, winner };
 };
-

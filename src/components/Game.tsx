@@ -11,41 +11,40 @@ import Image from "next/image";
 // Goblin visuials that gives possibility to set each goblins position on the battlefield
 // TODO: Consider UUID for each image specific ID
 const goblinImages_1 = [
-  { src: '/assets/goblin-9.gif', posX: 0, posY: 10 },
-  { src: '/assets/goblin-9.gif', posX: 50, posY: 40 },
-  { src: '/assets/goblin-9.gif', posX: 0, posY: 70 },
-  { src: '/assets/goblin-9.gif', posX: 0, posY: 130 },
-  { src: '/assets/goblin-9.gif', posX: 50, posY: 100 },
+  { src: "/assets/goblin-9.gif", posX: 0, posY: 10 },
+  { src: "/assets/goblin-9.gif", posX: 50, posY: 40 },
+  { src: "/assets/goblin-9.gif", posX: 0, posY: 70 },
+  { src: "/assets/goblin-9.gif", posX: 0, posY: 130 },
+  { src: "/assets/goblin-9.gif", posX: 50, posY: 100 },
 ];
 const goblinImages_2 = [
-  { src: '/assets/goblin-7.webp', posX: 0, posY: 10 },
-  { src: '/assets/goblin-7.webp', posX: 50, posY: 40 },
-  { src: '/assets/goblin-7.webp', posX: 0, posY: 70 },
-  { src: '/assets/goblin-7.webp', posX: 0, posY: 130 },
-  { src: '/assets/goblin-7.webp', posX: 50, posY: 100 },
+  { src: "/assets/goblin-7.webp", posX: 0, posY: 10 },
+  { src: "/assets/goblin-7.webp", posX: 50, posY: 40 },
+  { src: "/assets/goblin-7.webp", posX: 0, posY: 70 },
+  { src: "/assets/goblin-7.webp", posX: 0, posY: 130 },
+  { src: "/assets/goblin-7.webp", posX: 50, posY: 100 },
 ];
 
 const modalStyle = {
-  height: '300px',
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: '100%',
+  height: "300px",
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "100%",
   maxWidth: 500,
-  bgcolor: '#F0F0C9',
-  border: '4px solid #3B3B3B',
-  boxShadow: '8px 8px 0px #2B2B2B',
-  padding: '10px',
-  textAlign: 'center',
+  bgcolor: "#F0F0C9",
+  border: "4px solid #3B3B3B",
+  boxShadow: "8px 8px 0px #2B2B2B",
+  padding: "10px",
+  textAlign: "center",
   backgroundImage: 'url("/assets/battle-background.png")',
-  backgroundSize: 'cover',
+  backgroundSize: "cover",
 };
 
 const Game = () => {
-  const [teams, setTeams] = useState<Team[]>([]);
-
   // TODO: Consider moving to some global state when complexity/prop drill grows
+  const [teams, setTeams] = useState<Team[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [battlingTeams, setBattlingTeams] = useState<Team[]>([]);
@@ -55,7 +54,7 @@ const Game = () => {
 
   // Timing controls
   const appearDisappearInterval: number = 250; // Control how long the effect stays visible
-  const startDelay: number = 100; // Delay after modal open before starting the animation (in ms)
+  const startDelay: number = 100; // Time after modal
   const displayWinnerDelay: number = 3500; // Time before showing the winner
   const autoCloseTime: number = 4500; // Time before closing modal
 
@@ -89,8 +88,8 @@ const Game = () => {
 
       // Show the winner team
       const showWinnerTimeout = setTimeout(() => {
-        setWinnerVisible(true)
-      }, displayWinnerDelay)
+        setWinnerVisible(true);
+      }, displayWinnerDelay);
 
       // Automatically close the modal
       const autoCloseTimeout = setTimeout(() => {
@@ -155,7 +154,11 @@ const Game = () => {
     if (teams.length > 1) {
       const { updatedTeams, participatingTeams, winner } = battle(teams);
 
-      setTeams([...updatedTeams].sort((a, b) => (b.victoryPoints || 0) - (a.victoryPoints || 0)));
+      setTeams(
+        [...updatedTeams].sort(
+          (a: Team, b: Team) => (b.victoryPoints || 0) - (a.victoryPoints || 0)
+        )
+      );
       setBattlingTeams(participatingTeams);
       setWinner(winner);
       setModalOpen(true);
@@ -189,10 +192,7 @@ const Game = () => {
           border: "3px solid #3B3B3B",
         }}
       >
-        <Typography
-          variant="h5"
-          sx={{ color: "#F24B1A", textAlign: "center" }}
-        >
+        <Typography variant="h5" sx={{ color: "#F24B1A", textAlign: "center" }}>
           Create New Team
         </Typography>
 
@@ -204,7 +204,7 @@ const Game = () => {
           onChange={handleInputChange}
           sx={{
             backgroundColor: "#FFFFFF",
-            borderRadius: '4px'
+            borderRadius: "4px",
           }}
         />
 
@@ -225,7 +225,10 @@ const Game = () => {
         </Button>
       </Box>
 
-      <Box mt={4} sx={{display: 'flex', justifyContent: 'center', gap: '20px'}}>
+      <Box
+        mt={4}
+        sx={{ display: "flex", justifyContent: "center", gap: "20px" }}
+      >
         <Button
           variant="contained"
           color="secondary"
@@ -268,9 +271,9 @@ const Game = () => {
           <Box
             sx={{
               mt: 2,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center'
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
             {teams.map((team: Team) => (
@@ -295,10 +298,14 @@ const Game = () => {
           <Box>
             {battlingTeams.length === 2 && (
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Typography sx={{ color: "red", fontSize: "1.8rem", fontWeight: "bold" }}>
+                <Typography
+                  sx={{ color: "red", fontSize: "1.8rem", fontWeight: "bold" }}
+                >
                   {battlingTeams[0].teamName}
                 </Typography>
-                <Typography sx={{ color: "red", fontSize: "1.8rem", fontWeight: "bold" }}>
+                <Typography
+                  sx={{ color: "red", fontSize: "1.8rem", fontWeight: "bold" }}
+                >
                   {battlingTeams[1].teamName}
                 </Typography>
               </Box>
@@ -348,19 +355,28 @@ const Game = () => {
                 left: "0px",
                 top: "100px",
                 opacity: effectVisible ? 1 : 0,
-                transition: `opacity ${appearDisappearInterval / 1000}s ease-in-out`,
+                transition: `opacity ${
+                  appearDisappearInterval / 1000
+                }s ease-in-out`,
               }}
             >
-              <Image src="/assets/effect-2.gif" width={100} height={100} alt="battle effect" />
+              <Image
+                src="/assets/effect-2.gif"
+                width={100}
+                height={100}
+                alt="battle effect"
+              />
             </Box>
           </Box>
-              {winnerVisible &&
-              <Box sx={{position: 'relative', top: '50px'}}>
-                <Typography sx={{ color: "red", fontSize: "1.8rem", fontWeight: "bold" }}>
-                  {winner ? `${winner.teamName} wins!` : "TIE!"}
-                </Typography>
-              </Box>
-              }
+          {winnerVisible && (
+            <Box sx={{ position: "relative", top: "50px" }}>
+              <Typography
+                sx={{ color: "red", fontSize: "1.8rem", fontWeight: "bold" }}
+              >
+                {winner ? `${winner.teamName} wins!` : "TIE!"}
+              </Typography>
+            </Box>
+          )}
         </Box>
       </Modal>
     </Box>

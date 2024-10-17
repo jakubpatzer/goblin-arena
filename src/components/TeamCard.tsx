@@ -2,31 +2,30 @@
 
 import { useState } from "react";
 import { Team, Goblin } from "@/interfaces";
-import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { styled } from "@mui/material/styles";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Collapse from "@mui/material/Collapse";
+import IconButton, { IconButtonProps } from "@mui/material/IconButton";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box, Typography } from "@mui/material";
 import Image from "next/image";
-
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
-
-const ExpandMore = styled((props: ExpandMoreProps) => {
-  const { expand, ...other } = props;
+// Temporary hack (need to find a solution for this)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const ExpandMore = styled(({ expand, ...other }: ExpandMoreProps) => {
   return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transition: theme.transitions.create('transform', {
+})<ExpandMoreProps>(({ theme, expand }) => ({
+  transition: theme.transitions.create("transform", {
     duration: theme.transitions.duration.shortest,
   }),
-  transform: expand ? 'rotate(180deg)' : 'rotate(0deg)', // Use expand prop to control rotation
+  transform: expand ? "rotate(180deg)" : "rotate(0deg)",
 }));
 
 export default function TeamCard({ team }: { team: Team }) {
@@ -42,20 +41,20 @@ export default function TeamCard({ team }: { team: Team }) {
       sx={{
         width: 220,
         maxWidth: 220,
-        borderWidth: '4px',
-        borderColor: '#3B3B3B',
-        backgroundColor: '#F0F0C9',
-        boxShadow: '8px 8px 0px #2B2B2B',
-        marginBottom: '20px'
+        borderWidth: "4px",
+        borderColor: "#3B3B3B",
+        backgroundColor: "#F0F0C9",
+        boxShadow: "8px 8px 0px #2B2B2B",
+        marginBottom: "20px",
       }}
     >
       <CardHeader
         title={team.teamName}
         subheader={`Wins: ${team.victoryPoints}`}
         sx={{
-          fontSize: '0.9rem',
-          color: '#F24B1A',
-          textAlign: 'center',
+          fontSize: "0.9rem",
+          color: "#F24B1A",
+          textAlign: "center",
         }}
       />
       <CardMedia
@@ -64,27 +63,27 @@ export default function TeamCard({ team }: { team: Team }) {
         image="/assets/logo.jpeg"
         alt="Retro game logo"
         sx={{
-          border: '2px solid #2B2B2B',
+          border: "2px solid #2B2B2B",
         }}
       />
-   <CardActions
-      sx={{ display: 'flex', justifyContent: 'center' }}
-      disableSpacing
-    >
-      <ExpandMore
-        expand={expanded}
-        onClick={handleExpandClick}
-        aria-expanded={expanded}
-        aria-label="show more"
+      <CardActions
+        sx={{ display: "flex", justifyContent: "center" }}
+        disableSpacing
       >
-        <ExpandMoreIcon />
-      </ExpandMore>
-    </CardActions>
+        <ExpandMore
+          expand={expanded}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon />
+        </ExpandMore>
+      </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent
           sx={{
-            color: '#333',
-            lineHeight: '1.5',
+            color: "#333",
+            lineHeight: "1.5",
           }}
         >
           {team.goblins.map((goblin: Goblin) => (
@@ -92,35 +91,54 @@ export default function TeamCard({ team }: { team: Team }) {
             <Box key={goblin.name} sx={{ mb: 2 }}>
               <Typography
                 sx={{
-                  fontSize: '1.2rem',
-                  color: '#0C6C91',
-                  marginBottom: '20px',
-                  borderTop: '2px solid black',
-                  paddingTop: '10px',
+                  fontSize: "1.2rem",
+                  color: "#0C6C91",
+                  marginBottom: "20px",
+                  borderTop: "2px solid black",
+                  paddingTop: "10px",
                 }}
               >
                 {goblin.name}
               </Typography>
               {/* TODO: Find/make better sword and shield images with similar width and height */}
-              <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <Image 
-                  src='/assets/sword.png'
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  src="/assets/sword.png"
                   width={80}
                   height={40}
-                  alt='sword'
+                  alt="sword"
                 />
-                <Typography sx={{ fontSize: '0.9rem', color: 'red' }}>
+                <Typography sx={{ fontSize: "0.9rem", color: "red" }}>
                   {goblin.attack}
                 </Typography>
               </Box>
-              <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <Image 
-                  src='/assets/shield.png'
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  src="/assets/shield.png"
                   width={30}
                   height={30}
-                  alt='sword'
+                  alt="sword"
                 />
-                <Typography sx={{ fontSize: '0.9rem', position: 'relative', left: '25px', color: 'blue' }}>
+                <Typography
+                  sx={{
+                    fontSize: "0.9rem",
+                    position: "relative",
+                    left: "25px",
+                    color: "blue",
+                  }}
+                >
                   {goblin.defense}
                 </Typography>
               </Box>
