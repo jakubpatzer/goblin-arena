@@ -8,8 +8,8 @@ import { Team, Goblin } from "@/interfaces";
 
 // Single battle between goblins
 const fightGoblinBattle = (goblin1: Goblin, goblin2: Goblin) => {
-  let goblin1Alive = true;
-  let goblin2Alive = true;
+  let goblin1Alive: boolean = true;
+  let goblin2Alive: boolean = true;
 
   // Check if goblin1 kills goblin2
   if (goblin1.attack > goblin2.defense) {
@@ -26,17 +26,17 @@ const fightGoblinBattle = (goblin1: Goblin, goblin2: Goblin) => {
 
 // Single round between two teams
 const battleRound = (team1: Team, team2: Team) => {
-  let team1Wins = 0;
-  let team2Wins = 0;
+  let team1Wins: number = 0;
+  let team2Wins: number = 0;
 
   // Select random goblins from each team for the battle
-  const randomGoblins1 = team1.goblins.sort(() => Math.random() - 0.5).slice(0, 5);
-  const randomGoblins2 = team2.goblins.sort(() => Math.random() - 0.5).slice(0, 5);
+  const randomGoblins1: Goblin[] = team1.goblins.sort(() => Math.random() - 0.5).slice(0, 5);
+  const randomGoblins2: Goblin[] = team2.goblins.sort(() => Math.random() - 0.5).slice(0, 5);
 
   // 5 fights
   for (let i = 0; i < 5; i++) {
-    const goblin1 = randomGoblins1[i];
-    const goblin2 = randomGoblins2[i];
+    const goblin1: Goblin = randomGoblins1[i];
+    const goblin2: Goblin = randomGoblins2[i];
 
     const result = fightGoblinBattle(goblin1, goblin2);
 
@@ -54,7 +54,7 @@ const battleRound = (team1: Team, team2: Team) => {
   } else if (team2Wins > team1Wins) {
     return team2;
   } else {
-    return null; // Tie
+    return null;
   }
 };
 
@@ -67,10 +67,10 @@ export const battle = (teams: Team[]): { updatedTeams: Team[], participatingTeam
   }
 
   // Teams array clone
-  const updatedTeams = teams.map(team => ({ ...team }));
+  const updatedTeams: Team[] = teams.map((team: Team) => ({ ...team }));
 
   // Randomly select two teams for a round
-  const participatingTeams = updatedTeams.sort(() => Math.random() - 0.5).slice(0, 2);
+  const participatingTeams: Team[] = updatedTeams.sort(() => Math.random() - 0.5).slice(0, 2);
   const [team1, team2] = participatingTeams;
 
   // Set victory points for teams

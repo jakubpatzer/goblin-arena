@@ -1,7 +1,7 @@
 "use client";
 
+import { useState } from "react";
 import { Team, Goblin } from "@/interfaces";
-import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -23,7 +23,6 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
 })(({ theme }) => ({
-  marginLeft: 'auto',
   transition: theme.transitions.create('transform', {
     duration: theme.transitions.duration.shortest,
   }),
@@ -44,9 +43,9 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 export default function TeamCard({ team }: { team: Team }) {
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState<boolean>(false);
 
-  const handleExpandClick = () => {
+  const handleExpandClick = (): void => {
     setExpanded(!expanded);
   };
 
@@ -81,18 +80,19 @@ export default function TeamCard({ team }: { team: Team }) {
           border: '2px solid #2B2B2B',
         }}
       />
-      <CardActions 
-        disableSpacing
+   <CardActions
+      sx={{ display: 'flex', justifyContent: 'center' }}
+      disableSpacing
+    >
+      <ExpandMore
+        expand={expanded}
+        onClick={handleExpandClick}
+        aria-expanded={expanded}
+        aria-label="show more"
       >
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
-      </CardActions>
+        <ExpandMoreIcon />
+      </ExpandMore>
+    </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent
           sx={{
